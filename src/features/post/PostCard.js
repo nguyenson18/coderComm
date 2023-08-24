@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Link,
@@ -8,16 +8,20 @@ import {
   Typography,
   CardHeader,
   IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
 
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteIcon from '@mui/icons-material/Delete';
 import PostReaction from "./PostReaction";
 import CommentForm from "../comment/CommentForm";
 import CommentList from "../comment/CommentList";
+import useAuth from "../../hooks/useAuth";
 
 function PostCard({ post }) {
+ const {user} = useAuth()
   return (
     <Card>
       <CardHeader
@@ -45,8 +49,8 @@ function PostCard({ post }) {
           </Typography>
         }
         action={
-          <IconButton>
-            <MoreVertIcon sx={{ fontSize: 30 }} />
+          <IconButton onClick={()=> {}}>
+            {post?.author?._id === user?._id && (<DeleteIcon sx={{ fontSize: 25 }} />)}
           </IconButton>
         }
       />

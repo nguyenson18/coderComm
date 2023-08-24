@@ -9,13 +9,12 @@ import ActionButton from "./ActionButton";
 function UserCard({ profile }) {
   const { user } = useAuth();
   const currentUserId = user._id;
-  const { _id: targetUserId, name, avatarUrl, email, friendship } = profile;
-
+  const { _id: targetUserId, name, avatarUrl, email } = profile;
   const actionButton = (
     <ActionButton
       currentUserId={currentUserId}
       targetUserId={targetUserId}
-      friendship={friendship}
+      friendship={profile?.friendShip}
     />
   );
 

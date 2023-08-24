@@ -22,7 +22,6 @@ function FriendList() {
   );
   const users = currentPageUsers.map((userId) => usersById[userId]);
   const dispatch = useDispatch();
-
   const handleSubmit = (searchQuery) => {
     setFilterName(searchQuery);
   };

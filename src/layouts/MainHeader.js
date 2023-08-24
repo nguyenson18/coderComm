@@ -6,6 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import LogoutIcon from '@mui/icons-material/Logout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import HomeIcon from '@mui/icons-material/Home';
 
 import Logo from "../components/Logo";
 import { Avatar, Divider } from "@mui/material";
@@ -73,7 +76,7 @@ function MainHeader() {
         component={RouterLink}
         sx={{ mx: 1 }}
       >
-        My Profile
+        <HomeIcon sx={{marginRight:'5px'}}/> My Profile
       </MenuItem>
 
       <MenuItem
@@ -82,13 +85,13 @@ function MainHeader() {
         component={RouterLink}
         sx={{ mx: 1 }}
       >
-        Account Settings
+        <ManageAccountsIcon sx={{marginRight:'5px'}}/> Account Settings
       </MenuItem>
 
       <Divider sx={{ borderStyle: "dashed" }} />
 
       <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
-        Logout
+         <LogoutIcon sx={{marginRight:'5px'}}/> Logout
       </MenuItem>
     </Menu>
   );

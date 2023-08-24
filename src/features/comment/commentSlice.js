@@ -77,7 +77,7 @@ export const getComments =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   };
 
