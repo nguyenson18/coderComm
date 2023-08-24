@@ -18,6 +18,7 @@ import { FormProvider, FTextField } from "../components/form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { useSnackbar } from "notistack";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -41,7 +42,7 @@ function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
-
+  const { enqueueSnackbar } = useSnackbar();
   const methods = useForm({
     resolver: yupResolver(RegisterSchema),
     defaultValues,
@@ -58,6 +59,7 @@ function RegisterPage() {
     try {
       await auth.register({ name, email, password }, () => {
         navigate("/", { replace: true });
+        enqueueSnackbar("Bạn đã đăng ký thành công", { variant: "success" });
       });
     } catch (error) {
       reset();

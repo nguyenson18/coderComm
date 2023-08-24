@@ -33,9 +33,7 @@ const reducer = (state, action) => {
       };
     case REGISTER_SUCCESS:
       return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload.user,
+        ...state
       };
     case LOGOUT:
       return {
@@ -181,7 +179,7 @@ function AuthProvider({ children }) {
     dispatch({ type: LOGOUT });
     callback();
   };
-
+  
   return (
     <AuthContext.Provider
       value={{

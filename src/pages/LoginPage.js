@@ -6,6 +6,13 @@ import {
   IconButton,
   InputAdornment,
   Container,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -18,6 +25,8 @@ import useAuth from "../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import apiService from "../app/apiService";
+import { useSnackbar } from "notistack";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -35,6 +44,9 @@ function LoginPage() {
   const location = useLocation();
   const auth = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [openDailog, setOpenDailog] = useState(false)
+  const [email, setEmail] = useState("")
+  const { enqueueSnackbar } = useSnackbar();
 
   const methods = useForm({
     resolver: yupResolver(LoginSchema),
@@ -61,6 +73,17 @@ function LoginPage() {
     }
   };
 
+  const handleSend = async() => {
+    try {
+      const response = await apiService.post("/users/forgotPassword", { email:email });
+      if(response.success){
+        setOpenDailog(false)
+        enqueueSnackbar("Mật khẩu của bạn đã được reset", { variant: "success" });
+      }
+    } catch (error) {
+      setError("responseError", error);
+    }
+  }
   return (
     <Container maxWidth="xs">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -103,9 +126,9 @@ function LoginPage() {
           sx={{ my: 2 }}
         >
           <FCheckbox name="remember" label="Remember me" />
-          <Link component={RouterLink} variant="subtitle2" to="/">
+          <Typography variant="subtitle2" sx={{color:"#00AB55", cursor:"pointer"}} onClick={() => setOpenDailog(true)}>
             Forgot password?
-          </Link>
+          </Typography>
         </Stack>
 
         <LoadingButton
@@ -118,6 +141,26 @@ function LoginPage() {
           Login
         </LoadingButton>
       </FormProvider>
+      <Dialog
+        onClose={handleSend}
+        open={openDailog}
+      >
+        <DialogTitle>Forgot Password</DialogTitle>
+        <DialogContent sx={{ width: 500 }}>
+            <TextField fullWidth name="email" label="Email address" required onChange={(e) => setEmail(e.target.value)}/>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={()=> {
+            setOpenDailog(false)
+            setEmail('')
+          }}>
+            Đóng
+          </Button>
+          <Button onClick={handleSend}>
+            Gửi
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }

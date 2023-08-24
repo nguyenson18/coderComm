@@ -3,16 +3,29 @@ import { BrowserRouter } from "react-router-dom";
 import Router from "./routes";
 import { AuthProvider } from "./contexts/AuthContext";
 import ThemeProvider from "./theme";
+import { SnackbarProvider } from "notistack";
+import SnackbarCloseButton from "./components/notistack";
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <ThemeProvider>
-          <Router />
-        </ThemeProvider>
-      </BrowserRouter>
-    </AuthProvider>
+    <SnackbarProvider
+      maxSnack={3}
+      action={(snackbarKey) => (
+        <SnackbarCloseButton snackbarKey={snackbarKey} />
+      )}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+    >
+      <AuthProvider>
+        <BrowserRouter>
+          <ThemeProvider>
+            <Router />
+          </ThemeProvider>
+        </BrowserRouter>
+      </AuthProvider>
+    </SnackbarProvider>
   );
 }
 

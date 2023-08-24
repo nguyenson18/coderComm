@@ -117,7 +117,7 @@ export const getFriends =
     try {
       const params = { page, limit };
       if (filterName) params.name = filterName;
-      const response = await apiService.get("/friends", { params });
+      const response = await apiService.get("/friends/friend", { params });
       dispatch(slice.actions.getFriendsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
