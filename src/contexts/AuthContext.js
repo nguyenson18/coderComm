@@ -2,6 +2,8 @@ import { createContext, useReducer, useEffect } from "react";
 import { useSelector } from "react-redux";
 import apiService from "../app/apiService";
 import { isValidToken } from "../utils/jwt";
+import { useState } from "react";
+import { io } from "socket.io-client";
 
 const initialState = {
   isInitialized: false,
@@ -97,7 +99,23 @@ const AuthContext = createContext({ ...initialState });
 
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [socket, setSocket] = useState(null);
+  const [userId, setUserId] = useState(null);
+
   const updatedProfile = useSelector((state) => state.user.updatedProfile);
+  // connect socket
+  useEffect(() => {
+    const newSocket = io("http://localhost:5002");
+    setSocket(newSocket);
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+  // xoá người dùng đã đăng xuất và ở trạng thái không online
+  useEffect(() => {
+    if (socket === null) return;
+    state.user == null && socket.emit("removeUser", userId);
+  }, [state.user]);
 
   useEffect(() => {
     const initialize = async () => {
@@ -175,6 +193,7 @@ function AuthProvider({ children }) {
   };
 
   const logout = async (callback) => {
+    setUserId(state.user._id)
     setSession(null);
     dispatch({ type: LOGOUT });
     callback();
@@ -187,6 +206,7 @@ function AuthProvider({ children }) {
         login,
         register,
         logout,
+        socket,
       }}
     >
       {children}

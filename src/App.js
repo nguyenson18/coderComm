@@ -5,6 +5,8 @@ import { AuthProvider } from "./contexts/AuthContext";
 import ThemeProvider from "./theme";
 import { SnackbarProvider } from "notistack";
 import SnackbarCloseButton from "./components/notistack";
+import { OnlineContextProvider } from "./contexts/OnlineContext";
+import { ChatContextProvider } from "./contexts/ChatContext";
 
 function App() {
   return (
@@ -19,11 +21,15 @@ function App() {
       }}
     >
       <AuthProvider>
-        <BrowserRouter>
-          <ThemeProvider>
-            <Router />
-          </ThemeProvider>
-        </BrowserRouter>
+        <OnlineContextProvider>
+          <ChatContextProvider>
+            <BrowserRouter>
+              <ThemeProvider>
+                <Router />
+              </ThemeProvider>
+            </BrowserRouter>
+          </ChatContextProvider>
+        </OnlineContextProvider>
       </AuthProvider>
     </SnackbarProvider>
   );

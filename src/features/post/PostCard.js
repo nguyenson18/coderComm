@@ -20,8 +20,10 @@ import CommentForm from "../comment/CommentForm";
 import CommentList from "../comment/CommentList";
 import useAuth from "../../hooks/useAuth";
 
-function PostCard({ post }) {
+function PostCard({ post , setPostId, postId}) {
  const {user} = useAuth()
+
+
   return (
     <Card>
       <CardHeader
@@ -49,7 +51,7 @@ function PostCard({ post }) {
           </Typography>
         }
         action={
-          <IconButton onClick={()=> {}}>
+          <IconButton onClick={()=> setPostId(post._id)}>
             {post?.author?._id === user?._id && (<DeleteIcon sx={{ fontSize: 25 }} />)}
           </IconButton>
         }

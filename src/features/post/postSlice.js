@@ -59,6 +59,11 @@ const slice = createSlice({
       const { postId, reactions } = action.payload;
       state.postsById[postId].reactions = reactions;
     },
+
+    deletePostSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+    }
   },
 });
 
@@ -122,3 +127,15 @@ export const sendPostReaction =
       toast.error(error.message);
     }
   };
+
+export const deletePosts = ({postId}) => async(dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await apiService.delete(`/posts/${postId}`)
+    dispatch(slice.actions.deletePostSuccess(response
+      .data))
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message))
+    toast.error(error.message);
+  }
+}

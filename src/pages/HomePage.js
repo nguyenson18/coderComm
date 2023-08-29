@@ -14,6 +14,8 @@ import { capitalCase } from "change-case";
 import AddFriend from "../features/friend/AddFriend";
 import FriendRequests from "../features/friend/FriendRequests";
 import FriendList from "../features/friend/FriendList";
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import Message from "../features/message/Message";
 
 const TabsWrapperStyle = styled("div")(({ theme }) => ({
   zIndex: 9,
@@ -59,6 +61,11 @@ function HomePage() {
       value: "add_friend",
       icon: <PersonAddRoundedIcon sx={{ fontSize: 24 }} />,
       component: <AddFriend />,
+    },
+    {
+      value: "message",
+      icon: <ChatBubbleIcon sx={{ fontSize: 24 }} />,
+      component: <Message />,
     },
   ];
 

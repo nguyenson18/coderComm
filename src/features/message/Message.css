@@ -30,6 +30,8 @@
   
   .user_card .name {
     font-weight: 700;
+    color: black;
+    cursor: pointer;
   }
   
   .user_card .text,
@@ -59,7 +61,8 @@
   }
   
   .messages_box {
-    height: 85vh;
+    height: 60vh;
+
   }
   
   /* Chat Header */
@@ -85,6 +88,8 @@
     padding: 0.75rem;
     border-radius: 5px;
     max-width: 50%;
+    display: flex;
+    justify-content: space-between;
   }
   
   .message.self {
@@ -118,7 +123,7 @@
     position: relative;
   }
   
-  .notifications-icon {
+  .notifications_icon {
     color: white;
     cursor: pointer;
     position: relative;
@@ -171,7 +176,7 @@
     background: #263159;
   }
   
-  .notification-time {
+  .notification_time {
     margin-top: 0.2rem;
     font-size: 12px;
     color: #e0e0e0;
@@ -200,6 +205,7 @@
     font-size: 12px;
     font-weight: 700;
     border-radius: 50%;
+    margin-left: 10px;
     align-items: center;
     justify-content: center;
   }

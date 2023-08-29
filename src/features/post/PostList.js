@@ -3,24 +3,32 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import PostCard from "./PostCard";
-import { getPosts } from "./postSlice";
+import { deletePosts, getPosts } from "./postSlice";
 
 function PostList({ userId }) {
   const [page, setPage] = useState(1);
-  const { currentPagePosts, postsById, isLoading, totalPosts } = useSelector(
+  const [postId, setPostId] = useState(null)
+  let { currentPagePosts, postsById, isLoading, totalPosts } = useSelector(
     (state) => state.post
   );
-  const posts = currentPagePosts.map((postId) => postsById[postId]);
+  
+  let posts = currentPagePosts.map((postId) => postsById[postId]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (userId) dispatch(getPosts({ userId, page }));
-  }, [dispatch, userId, page]);
+  }, [dispatch, userId, postId, page]);
 
+  useEffect(() => {
+   if(postId !== null) {
+    dispatch(deletePosts({postId}))
+    setPostId(null)
+   }
+  },[postId])
   return (
     <>
       {posts.map((post) => (
-        <PostCard key={post._id} post={post} />
+        <PostCard key={post._id} post={post} setPostId={setPostId} postId={postId}/>
       ))}
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         {totalPosts ? (
