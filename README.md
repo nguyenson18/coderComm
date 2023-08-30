@@ -9,9 +9,9 @@ A demo application for teaching the FTW course at CoderSchool.
 - Create `/.env`:
 
 ```
-REACT_APP_BACKEND_API="https://codercomm-api-dot-cs-platform-306304.et.r.appspot.com/api"
-REACT_APP_CLOUDINARY_CLOUD_NAME = 'cloudinary-cloud-name'
-REACT_APP_CLOUDINARY_UPLOAD_PRESET = 'cloudinary-upload-preset'
+REACT_APP_BACKEND_API="http://localhost:5001/api"
+REACT_APP_CLOUDINARY_CLOUD_NAME = 'dc35areud'
+REACT_APP_CLOUDINARY_UPLOAD_PRESET = 'facebook_clone'
 ```
 
 The upload preset of your cloudinary should be **unsigned**.
