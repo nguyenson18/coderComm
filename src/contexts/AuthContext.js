@@ -105,10 +105,14 @@ function AuthProvider({ children }) {
   const updatedProfile = useSelector((state) => state.user.updatedProfile);
   // connect socket
   useEffect(() => {
-    const newSocket = io("http://localhost:5002");
-    setSocket(newSocket);
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+      transports: ["websocket"],
+    });
+
+    setSocket(socket);
+
     return () => {
-      newSocket.disconnect();
+      socket.disconnect();
     };
   }, []);
   // xoá người dùng đã đăng xuất và ở trạng thái không online
@@ -198,7 +202,7 @@ function AuthProvider({ children }) {
     dispatch({ type: LOGOUT });
     callback();
   };
-  
+
   return (
     <AuthContext.Provider
       value={{

@@ -12,6 +12,7 @@ A demo application for teaching the FTW course at CoderSchool.
 REACT_APP_BACKEND_API="http://localhost:5001/api"
 REACT_APP_CLOUDINARY_CLOUD_NAME = 'dc35areud'
 REACT_APP_CLOUDINARY_UPLOAD_PRESET = 'facebook_clone'
+NEXT_PUBLIC_SOCKET_URL ="http://localhost:5002"
 ```
 
 The upload preset of your cloudinary should be **unsigned**.
