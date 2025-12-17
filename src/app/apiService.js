@@ -3,7 +3,12 @@ import { BASE_URL } from "./config";
 
 const apiService = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true, 
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
+
 
 apiService.interceptors.request.use(
   (request) => {
