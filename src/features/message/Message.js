@@ -16,6 +16,7 @@ function Message() {
   const [toUserId, setToUserId] = useState("");
   
   const {createChat, chats, currentChat} = useChat()
+
   const {onlineUsers} = useOnline()
   // check giờ cuối cùng nhắn tin
   const { latesMessage } = useFetchLatestMessage(currentChat)
