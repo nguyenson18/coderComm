@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import apiService from "../app/apiService";
 import { isValidToken } from "../utils/jwt";
 import { useState } from "react";
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
+import { REACT_APP_SOCKET_URL } from "../app/config";
 
 const initialState = {
   isInitialized: false,
@@ -101,11 +102,10 @@ function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [socket, setSocket] = useState(null);
   const [userId, setUserId] = useState(null);
-
   const updatedProfile = useSelector((state) => state.user.updatedProfile);
   // connect socket
   useEffect(() => {
-    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+    const socket = io(process.env.REACT_APP_SOCKET_URL, {
       transports: ["websocket"],
     });
 
@@ -114,8 +114,9 @@ function AuthProvider({ children }) {
     return () => {
       socket.disconnect();
     };
-  }, []);
-  // xoá người dùng đã đăng xuất và ở trạng thái không online
+  }, [state.user]);
+
+  // // xoá người dùng đã đăng xuất và ở trạng thái không online
   useEffect(() => {
     if (socket === null) return;
     state.user == null && socket.emit("removeUser", userId);

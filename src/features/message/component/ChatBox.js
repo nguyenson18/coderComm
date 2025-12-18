@@ -12,7 +12,7 @@ import moment from "moment";
 
 function ChatBox() {
   const { user } = useAuth();
-  const {createSendMessage, getMessage, messages, chats , newMessage} = useChat()
+  const { createSendMessage, getMessage, messages, chats} = useChat()
   const { recipientUser } = useFetchRecipientUser(chats, user);
   const [textMessage, setTextMessage] = useState("");
 
@@ -26,8 +26,9 @@ function ChatBox() {
   };
 
   useEffect(() => {
-    chats && getMessage({chatId: chats?._id});
-  }, [chats]);
+    chats && getMessage({ chatId: chats?._id , fromId: recipientUser?._id || ""});
+  }, [chats, recipientUser]);
+
   if (!recipientUser)
     return (
       <p style={{ textAlign: "center", width: "100%" }}>
@@ -47,7 +48,7 @@ function ChatBox() {
       }}
     >
       <div className="chat_header">
-        <strong>giang</strong>
+        <strong>{recipientUser.name || ""}</strong>
       </div>
       <Stack
         gap={3}
@@ -60,10 +61,10 @@ function ChatBox() {
         }}
       >
         {messages && messages?.map((item) => (
-          <div className={ item?.receiverId !== user._id ? "message self" : "message"} key={item._id} style={{alignSelf: item?.receiverId !== user._id ? "end" : "start"}}>
-          <span style={{ color: item?.receiverId !== user._id ? "black" : "white", marginRight:'10px'}}>{item?.text}</span>
-          <span className="message-footer">{moment(item.createdAt).calendar()}</span>
-        </div>
+          <div className={item?.receiverId !== user._id ? "message self" : "message"} key={item._id} style={{ alignSelf: item?.receiverId !== user._id ? "end" : "start" }}>
+            <span style={{ color: item?.receiverId !== user._id ? "black" : "white", marginRight: '10px' }}>{item?.text}</span>
+            <span className="message-footer">{moment(item.createdAt).calendar()}</span>
+          </div>
         ))}
       </Stack>
       <Stack

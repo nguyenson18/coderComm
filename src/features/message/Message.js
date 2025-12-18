@@ -14,10 +14,10 @@ function Message() {
   const [filterName, setFilterName] = useState("");
   const [page, setPage] = useState(1);
   const [toUserId, setToUserId] = useState("");
-  
-  const {createChat, chats, currentChat} = useChat()
 
-  const {onlineUsers} = useOnline()
+  const { createChat, currentChat, notifications } = useChat()
+
+  const { onlineUsers } = useOnline()
   // check giờ cuối cùng nhắn tin
   const { latesMessage } = useFetchLatestMessage(currentChat)
   const { currentPageUsers, usersById } = useSelector(
@@ -33,9 +33,8 @@ function Message() {
   useEffect(() => {
     toUserId !== "" && createChat({ toUserId })
   }, [toUserId]);
-  
 
-  return (  
+  return (
     <Container>
       <Stack
         gap={4}
@@ -71,7 +70,7 @@ function Message() {
                 onClick={() => setToUserId(item?._id)}
               >
                 <div style={{ display: "flex" }}>
-                  <div>{/* <img src={avarter} height="35px" /> */}</div>
+                  {/* <div><img src={avarter} height="35px" /></div> */}
                   <div className="text_content">
                     <div className="name">{item?.name}</div>
                     <div className="text">
@@ -82,7 +81,11 @@ function Message() {
 
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div className="date">{moment(latesMessage?.createdAt).calendar()}</div>
-                  <div className="this_user_notifications">1</div>
+                  <div className="this_user_notifications">{
+                    notifications?.filter(
+                      e => e?.fromId === item._id && e?.isRead === true
+                    )?.length
+                  }</div>
                   <span
                     className={
                       onlineUsers?.some((user) => user?.userId === item?._id)

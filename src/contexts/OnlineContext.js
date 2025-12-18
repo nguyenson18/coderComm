@@ -19,7 +19,7 @@ export const OnlineContextProvider = ({children}) => {
     return () => {
       socket.off("getOnlineUsers");
     };
-  }, [user]);
+  }, [user, socket]);
     return <OnlineContext.Provider value={{onlineUsers, setOnlineUsers}}>
         {children}
     </OnlineContext.Provider>
