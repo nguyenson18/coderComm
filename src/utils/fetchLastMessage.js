@@ -7,6 +7,7 @@ export const useFetchLatestMessage = (chats) => {
     const [latesMessage, setLatesMessage] = useState(null)
     useEffect(() => {
         const getMessages = async() => {
+            if(!chats?._id) return null
             const response = await apiService.get(`/message/${chats?._id || ""}`)
             if(response.error){
                 return console.log("Error getting message...", response.error)

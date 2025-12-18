@@ -6,6 +6,8 @@ const initialState = {
   isLoading: false,
   error: null,
   currentPageUsers: [],
+  friends: [],
+  friendRequests: [],
   usersById: {},
   totalPages: 1,
 };
@@ -40,8 +42,8 @@ const slice = createSlice({
 
       const { users, count, totalPages } = action.payload;
       users.forEach((user) => (state.usersById[user._id] = user));
-      state.currentPageUsers = users.map((user) => user._id);
-      state.totalUsers = count;
+      state.friends = users.map((user) => user._id);
+      state.totalUserFriend = count;
       state.totalPages = totalPages;
     },
 
@@ -51,8 +53,8 @@ const slice = createSlice({
 
       const { users, count, totalPages } = action.payload;
       users.forEach((user) => (state.usersById[user._id] = user));
-      state.currentPageUsers = users.map((user) => user._id);
-      state.totalUsers = count;
+      state.friendRequests = users.map((user) => user._id);
+      state.totalUserRequests = count;
       state.totalPages = totalPages;
     },
 
@@ -97,50 +99,50 @@ export default slice.reducer;
 
 export const getUsers =
   ({ filterName, page = 1, limit = 12 }) =>
-  async (dispatch) => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const params = { page, limit };
-      if (filterName) params.name = filterName;
-      const response = await apiService.get("/users", { params });
-      dispatch(slice.actions.getUsersSuccess(response.data));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-      toast.error(error.message);
-    }
-  };
+    async (dispatch) => {
+      dispatch(slice.actions.startLoading());
+      try {
+        const params = { page, limit };
+        if (filterName) params.name = filterName;
+        const response = await apiService.get("/users", { params });
+        dispatch(slice.actions.getUsersSuccess(response.data));
+      } catch (error) {
+        dispatch(slice.actions.hasError(error));
+        toast.error(error.message);
+      }
+    };
 
 export const getFriends =
   ({ filterName, page = 1, limit = 12 }) =>
-  async (dispatch) => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const params = { page, limit };
-      if (filterName) params.name = filterName;
-      const response = await apiService.get("/friends/friend", { params });
-      dispatch(slice.actions.getFriendsSuccess(response.data));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
-    }
-  };
+    async (dispatch) => {
+      dispatch(slice.actions.startLoading());
+      try {
+        const params = { page, limit };
+        if (filterName) params.name = filterName;
+        const response = await apiService.get("/friends/friend", { params });
+        response.data && dispatch(slice.actions.getFriendsSuccess(response.data));
+      } catch (error) {
+        dispatch(slice.actions.hasError(error.message));
+        toast.error(error.message);
+      }
+    };
 
 export const getFriendRequests =
   ({ filterName, page = 1, limit = 12 }) =>
-  async (dispatch) => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const params = { page, limit };
-      if (filterName) params.name = filterName;
-      const response = await apiService.get("/friends/requests/incoming", {
-        params,
-      });
-      dispatch(slice.actions.getFriendRequestsSuccess(response.data));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
-    }
-  };
+    async (dispatch) => {
+      dispatch(slice.actions.startLoading());
+      try {
+        const params = { page, limit };
+        if (filterName) params.name = filterName;
+        const response = await apiService.get("/friends/requests/incoming", {
+          params,
+        });
+        dispatch(slice.actions.getFriendRequestsSuccess(response.data));
+      } catch (error) {
+        dispatch(slice.actions.hasError(error.message));
+        toast.error(error.message);
+      }
+    };
 
 export const sendFriendRequest = (targetUserId) => async (dispatch) => {
   dispatch(slice.actions.startLoading());

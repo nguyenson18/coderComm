@@ -17,10 +17,10 @@ function FriendList() {
   const [filterName, setFilterName] = useState("");
   const [page, setPage] = React.useState(1);
 
-  const { currentPageUsers, usersById, totalUsers, totalPages } = useSelector(
+  const { friends, usersById, totalUserFriend, totalPages } = useSelector(
     (state) => state.friend
   );
-  const users = currentPageUsers.map((userId) => usersById[userId]);
+  const users = friends.map((userId) => usersById[userId]);
   const dispatch = useDispatch();
   const handleSubmit = (searchQuery) => {
     setFilterName(searchQuery);
@@ -46,11 +46,11 @@ function FriendList() {
               variant="subtitle"
               sx={{ color: "text.secondary", ml: 1 }}
             >
-              {totalUsers > 1
-                ? `${totalUsers} friends found`
-                : totalUsers === 1
-                ? `${totalUsers} friend found`
-                : "No friend found"}
+              {totalUserFriend > 1
+                ? `${totalUserFriend} friends found`
+                : totalUserFriend === 1
+                  ? `${totalUserFriend} friend found`
+                  : "No friend found"}
             </Typography>
 
             <Pagination

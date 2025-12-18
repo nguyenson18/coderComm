@@ -17,10 +17,10 @@ function FriendRequests() {
   const [filterName, setFilterName] = useState("");
   const [page, setPage] = React.useState(1);
 
-  const { currentPageUsers, usersById, totalUsers, totalPages } = useSelector(
+  const { friendRequests, usersById, totalUserRequests, totalPages } = useSelector(
     (state) => state.friend
   );
-  const users = currentPageUsers.map((userId) => usersById[userId]);
+  const users = friendRequests.map((userId) => usersById[userId]);
   const dispatch = useDispatch();
 
   const handleSubmit = (searchQuery) => {
@@ -45,10 +45,10 @@ function FriendRequests() {
               variant="subtitle"
               sx={{ color: "text.secondary", ml: 1 }}
             >
-              {totalUsers > 1
-                ? `${totalUsers} requests found`
-                : totalUsers === 1
-                ? `${totalUsers} request found`
+              {totalUserRequests > 1
+                ? `${totalUserRequests} requests found`
+                : totalUserRequests === 1
+                ? `${totalUserRequests} request found`
                 : "No request found"}
             </Typography>
 

@@ -20,10 +20,11 @@ function Message() {
   const { onlineUsers } = useOnline()
   // check giờ cuối cùng nhắn tin
   const { latesMessage } = useFetchLatestMessage(currentChat)
-  const { currentPageUsers, usersById } = useSelector(
+  const { friends, usersById } = useSelector(
     (state) => state.friend
   );
-  let users = currentPageUsers.map((userId) => usersById[userId]);
+  
+  let users = friends.map((userId) => usersById[userId]);
   const dispatch = useDispatch();
 
   useEffect(() => {

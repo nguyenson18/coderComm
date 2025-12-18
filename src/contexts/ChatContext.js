@@ -61,6 +61,7 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const getMessage = async ({ chatId, fromId }) => {
+    if (!chatId) return null
     const response = await apiService.get(`/message/${chatId}`);
     setMessages(response.data);
     const cusNoti = notifications?.map((item) => {
